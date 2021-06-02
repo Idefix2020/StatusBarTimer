@@ -1,0 +1,9 @@
+Package: com.idefix2020.statusbartimer
+Name: StatusBarTimer
+Version: 0.0.1
+Depends: mobilesubstrate
+Author: Idefix2020 <Idefix2020dev@gmail.com>
+Maintainer: Idefix2020 <Idefix2020dev@gmail.com>
+Section: Tweaks
+Architecture: iphoneos-arm
+Description: Show remaining time on timer in Status Bar
