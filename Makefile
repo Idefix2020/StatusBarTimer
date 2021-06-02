@@ -1,8 +1,8 @@
 TARGET := iphone:clang:latest:13.0
 INSTALL_TARGET_PROCESSES = SpringBoard
 
-FINALPACKAGE=0
-DEBUG=1
+FINALPACKAGE=1
+DEBUG=0
 
 ifeq ($(DEBUG), 1)
 	GO_EASY_ON_ME=1
