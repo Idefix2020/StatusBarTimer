@@ -30,8 +30,6 @@ bool showTimer = YES;
     [self setUserInteractionEnabled:YES];
     [self addGestureRecognizer:gesture];
     
-    NSLog(@"[StatusBarTimer] 2 %p", self);
-
     return %orig(arg1);
 }
 
@@ -41,7 +39,33 @@ bool showTimer = YES;
 
     self.SBTOriginalText = arg1;
 
-    if (showTimer && self.frame.origin.x < [UIScreen mainScreen].bounds.size.width/4)
+    bool showInThisView = NO;
+
+    UIWindow *keyWindow = nil;
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    for (UIWindow *window in windows) {
+        if (window.isKeyWindow) {
+            keyWindow = window;
+            break;
+        }
+    }
+
+    // If the device has a notch only apply to views in the left quarter of the screen,
+    // if it doesn't only apply to views in the middle third of the screen
+    if ([keyWindow safeAreaInsets].bottom > 0) {
+        if (self.frame.origin.x < ([UIScreen mainScreen].bounds.size.width/4))
+        {
+            showInThisView = YES;
+        }
+    }
+    else {
+        if ((self.frame.origin.x > ([UIScreen mainScreen].bounds.size.width/3)) && (self.frame.origin.x < ([UIScreen mainScreen].bounds.size.width/3)*2))
+        {
+            showInThisView = YES;
+        }
+    }
+
+    if (showTimer && showInThisView)
     {
         long seconds = [self.nextTimer remainingTime];
 
@@ -81,7 +105,6 @@ bool showTimer = YES;
 }
 %new
 -(void) userTappedOnView:(UIGestureRecognizer *)gestureRecognizer {
-    NSLog(@"[StatusBarTimer] 3");
     showTimer = !showTimer;
     NSString *originalText = self.SBTOriginalText;
     [self setText:originalText];
