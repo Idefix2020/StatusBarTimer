@@ -21,6 +21,7 @@ bool showTimer = YES;
 %property(retain, nonatomic) NSString *SBTOriginalText;
 %property(retain, nonatomic) MTTimer *nextTimer;
 %property(retain, nonatomic) NSTimer *oneSecTimer;
+%property(retain, nonatomic) UIColor *textColor;
 
 -(id)initWithFrame:(CGRect)arg1 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MTTimerManagerNextTimerChanged" object:nil];
@@ -68,6 +69,7 @@ bool showTimer = YES;
     if (showTimer && showInThisView)
     {
         long seconds = [self.nextTimer remainingTime];
+        self.textColor = [UIColor colorWithRed:188 green:149 blue:88 alpha:1.0];
 
         if (seconds >= 3600)
         {
